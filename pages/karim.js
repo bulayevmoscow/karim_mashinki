@@ -12,12 +12,20 @@ const request = (body) => {
 
 const main = () => {
 
-  const pushData = (text) => {
-    new Promise((resolve, reject) => {
-      fetch('/2api/data', request(text))
-        .then(() => resolve(true))
+  const pushData = async (text) => {
+    const data = await new Promise((resolve, reject) => {
+      fetch('http://123/api/data', request(text))
+        .then((res) => {
+          if (!res.ok) {
+            setTransfer('error')
+          } else {
+            setTransfer('true')
+            resolve(true)
+          }
+        })
         .catch(() => reject(false))
-    })
+    }).
+    console.log(data)
   }
 
   const onChangeText = (event) => {
@@ -26,10 +34,11 @@ const main = () => {
   }
 
   const [data, setData] = useState('')
-  const [transfer, setTransfer] = useState('')
+  const [transfer, setTransfer] = useState(true)
 
   return (
     <div>
+      <p>{transfer}</p>
       <input type="text" value={data} onChange={onChangeText}/>
       <button onClick={pushData.bind(null, data)}> 123</button>
     </div>
