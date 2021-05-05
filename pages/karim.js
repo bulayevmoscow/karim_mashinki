@@ -1,9 +1,8 @@
-import { useState } from 'react'
-import Joystick from 'model/joystick'
-
+import { useState, useEffect } from 'react'
+// import Joystick from 'model/joystick'
+import Arrows from '../model/arrow'
 
 const request = (body) => {
-  console.log('body ' + body)
   return {
     method: 'POST',
     cache: 'no-cache',
@@ -13,34 +12,23 @@ const request = (body) => {
 }
 
 const main = () => {
-
-  const pushData = async (text) => {
-    const data = await new Promise((resolve, reject) => {
-      fetch('/api/data', request(text))
-        .then(res => (res.ok) ? resolve() : reject())
-        .catch(() => reject())
-    })
-      .then(() => true)
-      .catch(() => false)
-    setTransfer(data)
-  }
-
-  const onChangeText = (event) => {
-    const data = event.target.value
-    setData(data)
-    pushData(data)
-  }
-
   const [data, setData] = useState('')
-  const [transfer, setTransfer] = useState(true)
+  const [transfer, setTransfer] = useState(5)
+
+  const [position, setPosition] = useState({
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  })
 
   return (
     <div>
-      {/*<p>{transfer.toString()}</p>*/}
-      <div style={{height: '400px'}}></div>
-      {/*<input type="text" value={data} onChange={onChangeText}/>*/}
-      {/*<button onClick={pushData.bind(null, data)}> 123</button>*/}
-      <Joystick />
+      <p>{transfer.toString()}</p>
+      <div>
+        <pre>{JSON.stringify(data)}</pre>
+      </div>
+      <Arrows setTransfer={setTransfer} setData={setData} data={[position, setPosition]}/>
     </div>
   )
 }

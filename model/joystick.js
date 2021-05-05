@@ -18,7 +18,7 @@ const Joystick = () => {
 
   return (
     <div className={styles.joystick}>
-      <img src={ellipse} width='100%' className={styles.ellipse} alt=""/>
+      <img src={ellipse} width="100%" className={styles.ellipse} alt=""/>
       <img src={circle} className={styles.circle}
            onMouseDown={e => watcher = window.setInterval(Event.bind(null, e), 200)}
            onMouseUp={() => window.clearInterval(watcher)}
