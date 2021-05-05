@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import Joystick from 'model/joystick'
+
 
 const request = (body) => {
-  console.log(body)
+  console.log('body ' + body)
   return {
     method: 'POST',
     cache: 'no-cache',
@@ -14,23 +16,19 @@ const main = () => {
 
   const pushData = async (text) => {
     const data = await new Promise((resolve, reject) => {
-      fetch('http://123/api/data', request(text))
-        .then((res) => {
-          if (!res.ok) {
-            setTransfer('error')
-          } else {
-            setTransfer('true')
-            resolve(true)
-          }
-        })
-        .catch(() => reject(false))
-    }).
-    console.log(data)
+      fetch('/api/data', request(text))
+        .then(res => (res.ok) ? resolve() : reject())
+        .catch(() => reject())
+    })
+      .then(() => true)
+      .catch(() => false)
+    setTransfer(data)
   }
 
   const onChangeText = (event) => {
-    setData(event.target.value)
-    console.log(data)
+    const data = event.target.value
+    setData(data)
+    pushData(data)
   }
 
   const [data, setData] = useState('')
@@ -38,9 +36,11 @@ const main = () => {
 
   return (
     <div>
-      <p>{transfer}</p>
-      <input type="text" value={data} onChange={onChangeText}/>
-      <button onClick={pushData.bind(null, data)}> 123</button>
+      {/*<p>{transfer.toString()}</p>*/}
+      <div style={{height: '400px'}}></div>
+      {/*<input type="text" value={data} onChange={onChangeText}/>*/}
+      {/*<button onClick={pushData.bind(null, data)}> 123</button>*/}
+      <Joystick />
     </div>
   )
 }
