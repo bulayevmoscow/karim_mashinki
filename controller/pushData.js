@@ -4,14 +4,14 @@ const request = (body) => {
     method: 'POST',
     cache: 'no-cache',
     credentials: 'same-origin',
-    body: body
+    body: JSON.stringify(body)
   }
 }
 
-const pushData = async (url, data, setter) => {
+const pushData = async (data, setter) => {
     const result = await new Promise((resolve, reject) =>
-      // fetch('/api/data', request(data))
-      fetch(url, request(data))
+      fetch('/api/data', request(data))
+      // fetch(url, request(data))
         .then(res => (res.ok) ? resolve() : reject())
         .catch(() => reject())
     ).then(() => true).catch(() => false)
