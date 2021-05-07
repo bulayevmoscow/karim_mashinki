@@ -14,7 +14,7 @@ const request = (body) => {
 
 const main = () => {
   const [data, setData] = useState('')
-  const [transfer, setTransfer] = useState(5)
+  const [transfer, setTransfer] = useState(false)
 
   let [position, setPosition] = useState({
     top: 0,
@@ -24,8 +24,6 @@ const main = () => {
   })
 
   const positionHandler = (dir, press) => {
-    console.log(dir, press)
-
     setPosition(prev => {
       return {
         ...prev, ...{ [dir]: (press) ? 100 : 0 }
@@ -34,20 +32,15 @@ const main = () => {
 
   }
   const logger = () => console.log(position)
-  // window.setInterval(logger, 1000)
   useEffect(() => {
-    const interval = window.setInterval(pushData.bind(null, position), 100)
-    pushData.call(null, position)
-    // window.clearInterval(interval)
+    const sendDataHandler = pushData.bind(null, position, setTransfer);
+    sendDataHandler()
+    const interval = window.setInterval(sendDataHandler, 100)
     console.log(position)
     return () => {
+      window.clearInterval(interval);
     }
   }, [position])
-  // setInterval(pushData.bind(null, position), 1000)
-  useEffect(() => {
-      const interval = setInterval(() => pushData(position), 1000
-      )}, []
-  )
 
   return (
     <div>
@@ -59,7 +52,6 @@ const main = () => {
       <button onClick={positionHandler}>
         123
       </button>
-      <button onClick={() => {alert(JSON.stringify(position))}}>1234</button>
       <Arrows position={{ position, positionHandler }}/>
     </div>
   )

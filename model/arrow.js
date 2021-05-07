@@ -9,50 +9,82 @@ const sendData = (data) => {
 
 }
 
+// ArrowLeft
+// ArrowDown
+// ArrowRight
+// ArrowUp
+
 const Arrows = (props) => {
   const { position, positionHandler } = props.position
+  const keyIsPressed = {
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+  }
 
-  const keyDownHandler = (event) =>{
-    console.log(event);
+  const keyDownHandler = ({ code, type }) => {
+    const isPressed = type === 'keydown'
+    switch (code) {
+      case 'ArrowUp' :
+        positionHandler.call(null, 'top', isPressed)
+        break
+      case 'ArrowDown' :
+        positionHandler.call(null, 'bottom', isPressed)
+        break
+      case 'ArrowLeft' :
+        positionHandler.call(null, 'left', isPressed)
+        break
+      case 'ArrowRight' :
+        positionHandler.call(null, 'right', isPressed)
+        break
+      default:
+        break
+    }
+    console.log(keyIsPressed)
+    // console.log('data = ', data)
   }
 
   useEffect(() => {
     document.addEventListener('keydown', keyDownHandler)
-    // document.addEventListener('keyup', keyUpHandler)
-    const interval = window.setInterval(console.log, 1000)
-
+    document.addEventListener('keyup', keyDownHandler)
     return () => {
       document.removeEventListener('keydown', keyDownHandler)
-      // document.removeEventListener('keyup', keyUpHandler)
-      window.clearInterval(interval)
+      document.removeEventListener('keyup', keyDownHandler)
     }
   }, [])
 
   return (
     <div className={styles.arrowContainer}>
-      <img className={styles.top}
+      <div className={styles.top}
            onMouseDown={positionHandler.bind(null, 'top', true)}
            onMouseUp={positionHandler.bind(null, 'top', false)}
            onMouseLeave={positionHandler.bind(null, 'top', false)}
-           src={image} alt=""/>
+           data-value={position.top}>
+        <img src={image}/>
+      </div>
+      <div className={styles.left}
+           onMouseDown={positionHandler.bind(null, 'left', true)}
+           onMouseUp={positionHandler.bind(null, 'left', false)}
+           onMouseLeave={positionHandler.bind(null, 'left', false)}
+           data-value={position.left}>
+        <img src={image} alt=""/>
+      </div>
+      <div className={styles.bottom}
+           onMouseDown={positionHandler.bind(null, 'bottom', true)}
+           onMouseUp={positionHandler.bind(null, 'bottom', false)}
+           onMouseLeave={positionHandler.bind(null, 'bottom', false)}
+           data-value={position.bottom}>
+        <img src={image} alt=""/>
+      </div>
+      <div className={styles.right}
+           onMouseDown={positionHandler.bind(null, 'right', true)}
+           onMouseUp={positionHandler.bind(null, 'right', false)}
+           onMouseLeave={positionHandler.bind(null, 'right', false)}
+           data-value={position.right}>
+        <img src={image} alt=""/>
+      </div>
 
-
-      {/*<img className={styles.left}*/}
-      {/*     onMouseDown={mouseHandler.bind(null, 'left', true)}*/}
-      {/*     onMouseUp={mouseHandler.bind(null, 'left', false)}*/}
-      {/*     onMouseLeave={mouseHandler.bind(null, 'left', false)}*/}
-      {/*     src={image} alt=""*/}
-      {/*/>*/}
-      {/*<img className={styles.bottom}*/}
-      {/*     onMouseDown={mouseHandler.bind(null, 'bottom', true)}*/}
-      {/*     onMouseUp={mouseHandler.bind(null, 'bottom', false)}*/}
-      {/*     onMouseLeave={mouseHandler.bind(null, 'bottom', false)}*/}
-      {/*     src={image} alt=""/>*/}
-      {/*<img className={styles.right}*/}
-      {/*     onMouseDown={mouseHandler.bind(null, 'right', true)}*/}
-      {/*     onMouseUp={mouseHandler.bind(null, 'right', false)}*/}
-      {/*     onMouseLeave={mouseHandler.bind(null, 'right', false)}*/}
-      {/*     src={image} alt="2"/>*/}
     </div>
   )
 }

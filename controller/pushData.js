@@ -9,13 +9,12 @@ const request = (body) => {
 }
 
 const pushData = async (data, setter) => {
-    const result = await new Promise((resolve, reject) =>
+  const promise = await new Promise((resolve, reject) =>
       fetch('/api/data', request(data))
-      // fetch(url, request(data))
         .then(res => (res.ok) ? resolve() : reject())
         .catch(() => reject())
     ).then(() => true).catch(() => false)
-    // setter(result)
+  setter(promise);
 }
 
 export default pushData

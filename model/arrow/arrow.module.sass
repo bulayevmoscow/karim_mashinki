@@ -1,15 +1,33 @@
+$scale:0.8
+
 .arrowContainer
   display: flex
   background: rgba(0, 0, 255, 0.09)
+  flex-flow: row wrap
+  width: 300px
   img
     display: flex
     width: 70px
+    transition: .2s
   .left
     transform: rotate(0deg)
+    &[data-value="100"]
+      transform: rotate(0deg) scale($scale)
   .top
     transform: rotate(90deg)
+    &[data-value="100"]
+      transform: rotate(90deg) scale($scale)
   .right
     transform: rotate(180deg)
+    &[data-value="100"]
+      transform: rotate(180deg) scale($scale)
   .bottom
     transform: rotate(270deg)
+    &[data-value="100"]
+      transform: rotate(270deg) scale($scale)
+
+  .top
+    margin-left: 100px
+    margin-right: 100px
+
 
