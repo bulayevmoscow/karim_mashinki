@@ -1,0 +1,21 @@
+.containerDebug
+  position: fixed
+  width: 400px
+  right: 0
+  bottom: 0
+  padding: 10px
+  background: rgba(0, 128, 0, 0.5)
+  &[data-status="0"]
+    background: rgba(255, 0, 0, 0.5)
+  .openimagecontainer
+    position: absolute
+    z-index: 20
+    right: 0
+    top: 40%
+    width: 50px
+    height: 50px
+    background-image: url("/arrow_red.svg")
+    &[data-active=true]
+      transform: rotate(180deg)
+
+

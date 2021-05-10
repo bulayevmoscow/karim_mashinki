@@ -14,6 +14,7 @@ const pushData = async (data, setter) => {
         .then(res => (res.ok) ? resolve() : reject())
         .catch(() => reject())
     ).then(() => true).catch(() => false)
+  console.log(promise)
   setter(promise);
 }
 
