@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "go" : "next build && next start -p 80"
+    "buildAndStart": "next build && next start",
+    "go80port" : "next build && next start -p 80"
   },
   "dependencies": {
     "next": "10.2.0",
