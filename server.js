@@ -1,33 +1,33 @@
-const express = require('express')()
+const app = require('express')()
+const server = require('http').Server(app)
+const io = require('socket.io')(server)
 const next = require('next')
 
-const port = parseInt(process.env.PORT, 10) || 3000
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
-const io = require('socket.io')()
+const nextApp = next({ dev })
+const nextHandler = nextApp.getRequestHandler()
 
-io.listen(8000);
+const port = 3000;
 
-io.sockets.on('/connection', () => {
-  console.log(`Client with ID of ${socket.id} connected!`)
-
-  io.sockets.emit('SOME_EVENT', 'HelloWorld')
-})
-
-app.prepare().then(() => {
-  const server = express;
-
-
-
-
-  server.all('*', (req, res) => {
-    return handle(req, res)
+io.on('connect', socket => {
+  console.log('connect')
+  socket.emit('now', {
+    message: 'zeit'
+  })
+  socket.on('disconnect', () => {
+    console.log('lox')
   })
 
-  server.listen(port, (err) => {
-    if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
+})
+
+nextApp.prepare().then(() => {
+  app.get('*', (req, res) => {
+    return nextHandler(req, res)
+  })
+  server.listen(port, error => {
+    if (error) throw error
+    console.log('Ready!')
   })
 })
+
 
