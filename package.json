@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "buildAndStart": "next build && next start",
-    "go80port" : "next build && next start -p 80"
+    "go80port": "next build && next start -p 80"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "next": "10.2.0",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-throw-expressions": "^7.12.13",
-    "image-webpack-loader": "^7.0.1"
+    "image-webpack-loader": "^7.0.1",
+    "socket.io": "^4.1.1"
   }
 }

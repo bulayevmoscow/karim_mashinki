@@ -44,10 +44,11 @@ const main = () => {
       return
     }
     const sendDataHandler = pushData.bind(null, position, setStatus);
-    sendDataHandler()
-    const interval = window.setInterval(sendDataHandler, (status) ? 100 : 10000)
-    console.log(position)
+    // sendDataHandler()
+    const interval = window.setInterval(sendDataHandler, (status) ? 150 : 300)
+    // console.log(position)
     return () => {
+      sendDataHandler()
       window.clearInterval(interval)
     }
   }, [position, transfer, status])

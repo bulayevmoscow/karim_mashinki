@@ -4,6 +4,23 @@ const optimizedImages = require('next-optimized-images')
 
 module.exports = withPlugins([
 
-  [optimizedImages, {/* config for next-optimized-images */ }],
-], { useFileSystemPublicRoutes: true })
+  [optimizedImages],
+], { useFileSystemPublicRoutes: true }, {
+  async redirects () {
+    return [
+      {
+        source: '/',
+        destination: '/karim',
+        permanent: true,
+      },
+    ]
+  },
+  useFileSystemPublicRoutes: true,
+  dev: true
+})
+
+// module.exports = {
+//   withPlugins: withPlugins([[optimizedImages]]),
+//
+// }
 
