@@ -14,8 +14,9 @@ io.on('connect', socket => {
   socket.emit('now', {
     message: 'zeit'
   })
+  socket.on('data', data => console.log(data))
   socket.on('disconnect', () => {
-    console.log('lox')
+    console.log('disconnect')
   })
 
 })

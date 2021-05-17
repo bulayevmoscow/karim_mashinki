@@ -6,7 +6,8 @@ import styleBackgroundImage from '../public/arrow.svg'
 import { useEffect } from 'react'
 
 const Arrows = (props) => {
-
+  //arrowsTBRL
+  //arrowsXY
   const Arrow = ({ type }) => {
     return (
       <div className={styles[type]}
@@ -27,35 +28,42 @@ const Arrows = (props) => {
     if (repeat) {
       return
     }
-
-    switch (code) {
-      case 'ArrowUp' :
-        positionHandler.call(null, 'top', isPressed)
-        break
-      case 'ArrowDown' :
-        positionHandler.call(null, 'bottom', isPressed)
-        break
-      case 'ArrowLeft' :
-        positionHandler.call(null, 'left', isPressed)
-        break
-      case 'ArrowRight' :
-        positionHandler.call(null, 'right', isPressed)
-        break
-      case 'KeyW' :
-        positionHandler.call(null, 'getUp', isPressed)
-        break
-      case 'KeyA' :
-        positionHandler.call(null, 'rotateToLeft', isPressed)
-        break
-      case 'KeyS' :
-        positionHandler.call(null, 'getDown', isPressed)
-        break
-      case 'KeyD' :
-        positionHandler.call(null, 'rotateToRight', isPressed)
-        break
-      default:
-        break
+    if (props.type === 'arrowsTBRL') {
+      switch (code) {
+        case 'ArrowUp' :
+          positionHandler.call(null, 'top', isPressed)
+          break
+        case 'ArrowDown' :
+          positionHandler.call(null, 'bottom', isPressed)
+          break
+        case 'ArrowLeft' :
+          positionHandler.call(null, 'left', isPressed)
+          break
+        case 'ArrowRight' :
+          positionHandler.call(null, 'right', isPressed)
+          break
+        default:
+          break
+      }
+    } else if (props.type === 'arrowsXY') {
+      switch (code) {
+        case 'KeyW' :
+          positionHandler.call(null, 'getUp', isPressed)
+          break
+        case 'KeyA' :
+          positionHandler.call(null, 'rotateToLeft', isPressed)
+          break
+        case 'KeyS' :
+          positionHandler.call(null, 'getDown', isPressed)
+          break
+        case 'KeyD' :
+          positionHandler.call(null, 'rotateToRight', isPressed)
+          break
+        default:
+          break
+      }
     }
+
     console.log(code, type)
   }
 

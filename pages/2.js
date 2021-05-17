@@ -5,13 +5,20 @@ import DebugPanel from '../model/debugPanel'
 import styles from '../pagesStyles/karim.module.sass'
 import { io } from 'socket.io-client'
 
-const main = () => {
-  const [status, setStatus] = useState({});
-  const [socket, setSocket] = useState(false);
-  const [showDebug, setShowDebug] = useState(true)
-  const [transfer, setTransfer] = useState(false)
+function useSocket (url) {
+  const [socket, setSocket] = useState(null)
+  useEffect(() => {
+    const socketIo = io(url)
+    setSocket(socketIo)
+    return () => socketIo.disconnect()
+  }, [])
+  return socket
+}
 
-  let [position, setPosition] = useState({
+const main = () => {
+  // const [transfer, setTransfer] = useState(false);
+  let socket = useSocket()
+  const [position, setPosition] = useState({
     top: 0,
     bottom: 0,
     left: 0,
@@ -21,6 +28,32 @@ const main = () => {
     getUp: 0,
     getDown: 0
   })
+  // useEffect()
+
+  useEffect(() => {
+    if (!socket)
+      return
+    console.log(socket)
+    socket.on('now', data => console.log(data))
+    socket.emit('data', 'keku1')
+    // TODO сделать евент для отключения
+    socket.on('disconnect', () => {console.log('Server was disconnected')})
+  }, [socket])
+
+  useEffect(() => {
+
+    if (!socket){
+      console.log('error connect')
+      return
+    }
+    console.log(1, socket.connected)
+    socket.emit('data', JSON.stringify(position))
+  }, [position])
+
+  useEffect(() => {
+    // const interval = setInterval(() => {console.log()})
+  }, [])
+
 
   const positionHandler = (dir, press) => {
     // TODO Сделать обработчик чтобы снизить нагрузку на CPU
@@ -32,32 +65,27 @@ const main = () => {
 
   }
 
-  useEffect(() => {
-      const socketIo = io()
-      socketIo.on('connect', () => {})
-      socketIo.on('now', data => console.log(data))
-  }, [])
+  // useEffect(() => {
+  //   if (!transfer)
+  //     return
+  //   socketIo = io()
+  //   socketIo.on('connect', () => {})
+  //   socketIo.emit('data', { data: 'some data' });
+  //   // socketIo.on('now', data => console.log(data))
+  //   // console.log(socketIo)
+  //   return () => socketIo.disconnect()
+  // }, [transfer])
 
-  useEffect(() => {
-    if (!transfer) {
-      return
-    }
-    // const sendDataHandler = pushData.bind(null, position, setStatus);
-    // sendDataHandler()
-    // const interval = window.setInterval(sendDataHandler, (status) ? 150 : 300)
-    // console.log(position)
-    return () => {
-      // sendDataHandler()
-      // window.clearInterval(interval)
-    }
-  }, [position, transfer])
+  // useEffect(() => {
+  //   console.log(socketIo)
+  // }, [])
 
   return (
     <div className={styles.main}>
       <Arrows position={{ position, positionHandler }} type={'arrowsTBRL'}/>
       <Arrows position={{ position, positionHandler }} type={'arrowsXY'}/>
-      <DebugPanel show={{ showDebug, setShowDebug }} json={position} transfer={transfer} switchConnect={setTransfer}
-                  />
+      {/*<DebugPanel show={{ showDebug, setShowDebug }} json={position} transfer={transfer} switchConnect={setTransfer}/>*/}
+      {/*<button onClick={setTransfer.bind(null, !transfer)}>{transfer.toString()}</button>*/}
     </div>
   )
 }
