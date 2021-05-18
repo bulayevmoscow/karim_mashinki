@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## **Front + Back for OpenProject**
 
-## Getting Started
+School 21 Moscow
 
-First, run the development server:
 
-```bash
-npm run dev
+
+Проект работает на движке NodeJS 16
+
+Для начало нужно установить nodejs версии от 14 и выше
+
+Далее установка библиотек
+
+**Все команды выполняются строго в корневой папке проекта**
+
+```
+npm i
 # or
-yarn dev
+yarn
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Если все прошло успешно и все зависимости установились
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Конфиг запуска
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Пишем `yarn run < command >`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Command
 
-## Learn More
+#### **Использовать если уже есть сборка проекта**
 
-To learn more about Next.js, take a look at the following resources:
+`custom_dev` Режим разработки на 3000 порту
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`custom_dev_port_80` Режим разработки на 80 порту
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### **Использовать для запуска если уже есть сборка проекта**
 
-## Deploy on Vercel
+`custom_go` Размещения прода на 3000 порту, **без сборки**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`custom_go_port_80` То же что и `custom_go`, но на 80 порту
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### **Использовать для запуска если нет сборки**
+
+`custom_start` Сборка проекта и размещения прода на 3000 порту
+
+`custom_start_port_80` То же что и `custom_start`, но на 80 порту
