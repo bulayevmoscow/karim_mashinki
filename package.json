@@ -8,8 +8,12 @@
     "start": "next start",
     "buildAndStart": "next build && next start",
     "go80port": "next build && next start -p 80",
-    "custom": "node server.js",
-    "custom_start": "next build && NODE_ENV=production node server.js"
+    "custom_dev": "node server.js",
+    "custom_dev_port_80": "NODE_PORT=80 node server.js",
+    "custom_start": "next build && NODE_ENV=production node server.js",
+    "custom_start_port_80": "next build && NODE_ENV=production NODE_PORT=80 node server.js",
+    "custom_go": "NODE_ENV=production node server.js",
+    "custom_go_port_80": "NODE_ENV=production NODE_PORT=80 node server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
