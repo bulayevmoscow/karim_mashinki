@@ -10,9 +10,9 @@ RUN apt-get update
 # install curl
 RUN apt-get install curl -y
 # get install script and pass it to execute:
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_15.x | bash
 # and install node
-RUN apt-get install nodejs npm -y
+RUN apt-get install nodejs -y
 
 RUN npm install -g yarn next
 
@@ -31,4 +31,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Running the app
-CMD "yarn" "start"
+CMD "yarn" "run" "custom_start_port_80"

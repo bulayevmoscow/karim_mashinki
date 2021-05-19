@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import JoystickModelSVG from '../model/js'
+
+
 class ProgressBar extends React.Component {
   render () {
     const width = Math.abs(this.props.width)
@@ -25,7 +28,28 @@ class ProgressBar extends React.Component {
 const CheckJoystick = (predicate, thisArg) => {
 
   const [connect, setConnect] = useState(false)
-  const [joystick, setJoystick] = useState(false)
+  const [joystick, setJoystick] = useState({
+    connect: true,
+    axesLeft: {
+      x: 0,
+      y: 100
+    },
+    axesRight: {
+      x: 100,
+      y: 0
+    },
+    buttonCross: true,
+    buttonCircle: false,
+    buttonSquare: false,
+    buttonTriangle: true,
+    arrows: {
+      left: true,
+      right: false,
+      top: false,
+      bottom: true
+    }
+
+  })
   const [switcher, setSwitcher] = useState(true)
   const joystickConnect = (ev) => {
     setConnect('true')
@@ -39,20 +63,16 @@ const CheckJoystick = (predicate, thisArg) => {
   }
 
   const joystickHandler = () => {
-    // console.log('handler')
     const devices = Object.values(navigator.getGamepads())
     if (devices.filter(x => x) > 0) {
       alert('more that 1 device')
       return
     }
+
     //todo Сделать выбор устройства для мобил
-    // alert([devices[0], devices[1], devices[2], devices[3]])
     const device = devices.filter(x => x)[1]
     if (!device)
       return
-    // setJoystick({
-
-    // })
     setJoystick({
       axesLeft: {
         x: device.axes[0] * 100,
@@ -68,11 +88,9 @@ const CheckJoystick = (predicate, thisArg) => {
       buttonTriangle: device.buttons[3].pressed,
 
     })
-    //  square triangle circle
   }
 
   useEffect(() => {
-    window.addEventListener('keypress', x => alert(x))
     window.addEventListener('gamepadconnected', joystickConnect)
     window.addEventListener('gamepaddisconnected', joystickDisconnect)
     if (switcher) {
@@ -91,10 +109,12 @@ const CheckJoystick = (predicate, thisArg) => {
       {connect.toString()}
       {JSON.stringify(joystick, '', '\t')}
     </pre>
+
+    <JoystickModelSVG status={joystick}/>
+
     <ProgressBar width={(joystick) ? joystick.axesLeft.x : 0}/>
     <ProgressBar width={(joystick) ? joystick.axesLeft.y : 0}/>
 
-    <button onClick={setSwitcher.bind(null, !switcher)}>{(switcher) ? 'disconnect' : 'connect'} </button>
   </div>
 }
 
