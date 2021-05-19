@@ -30,24 +30,30 @@ const CheckJoystick = (predicate, thisArg) => {
   const [connect, setConnect] = useState(false)
   const [joystick, setJoystick] = useState({
     connect: true,
-    axesLeft: {
-      x: 0,
-      y: 100
-    },
-    axesRight: {
-      x: 100,
-      y: 0
-    },
+
+    //AxesLeft
+    axesLeftX: 0,
+    axesLeftY: 100,
+
+    //AxesRight
+    axesRightX: 100,
+    axesRightY: 0,
+
+    // RightButton
+    buttonTriangle: false,
+    buttonCircle: true,
     buttonCross: true,
-    buttonCircle: false,
     buttonSquare: false,
-    buttonTriangle: true,
-    arrows: {
-      left: true,
-      right: false,
-      top: false,
-      bottom: true
-    }
+
+    // LeftButton
+    arrowsLeft: false,
+    arrowsRight: false,
+    arrowsTop: false,
+    arrowsBottom: false,
+
+    //serviceButton
+    serviceButtonLeft: false,
+    serviceButtonRight: false,
 
   })
   const [switcher, setSwitcher] = useState(true)
@@ -69,7 +75,8 @@ const CheckJoystick = (predicate, thisArg) => {
       return
     }
 
-    //todo Сделать выбор устройства для мобил
+    // TODO Сделать выбор устройства для мобил
+    // https://developer.chrome.com/docs/devtools/remote-debugging/
     const device = devices.filter(x => x)[1]
     if (!device)
       return
@@ -104,16 +111,20 @@ const CheckJoystick = (predicate, thisArg) => {
     })
   }, [switcher])
 
+  const [tconnect, setTconnect] = useState(false);
+
   return <div>
     <pre>
       {connect.toString()}
       {JSON.stringify(joystick, '', '\t')}
     </pre>
 
-    <JoystickModelSVG status={joystick}/>
+    <button onClick={setTconnect.bind(null, !tconnect)}>123</button>
 
-    <ProgressBar width={(joystick) ? joystick.axesLeft.x : 0}/>
-    <ProgressBar width={(joystick) ? joystick.axesLeft.y : 0}/>
+    <JoystickModelSVG connect={tconnect} status={joystick}/>
+
+    {/*<ProgressBar width={(joystick) ? joystick.axesLeft.x : 0}/>*/}
+    {/*<ProgressBar width={(joystick) ? joystick.axesLeft.y : 0}/>*/}
 
   </div>
 }

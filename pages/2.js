@@ -16,9 +16,9 @@ function useSocket (url) {
 }
 
 const main = () => {
-  // const [transfer, setTransfer] = useState(false);
   let socket = useSocket()
   const [position, setPosition] = useState({
+    type: 'arrows',
     top: 0,
     bottom: 0,
     left: 0,
@@ -28,7 +28,6 @@ const main = () => {
     getUp: 0,
     getDown: 0
   })
-  // useEffect()
 
   useEffect(() => {
     if (!socket)
@@ -50,9 +49,7 @@ const main = () => {
     socket.emit('data', JSON.stringify(position))
   }, [position])
 
-  useEffect(() => {
-    // const interval = setInterval(() => {console.log()})
-  }, [])
+
 
 
   const positionHandler = (dir, press) => {
@@ -65,20 +62,6 @@ const main = () => {
 
   }
 
-  // useEffect(() => {
-  //   if (!transfer)
-  //     return
-  //   socketIo = io()
-  //   socketIo.on('connect', () => {})
-  //   socketIo.emit('data', { data: 'some data' });
-  //   // socketIo.on('now', data => console.log(data))
-  //   // console.log(socketIo)
-  //   return () => socketIo.disconnect()
-  // }, [transfer])
-
-  // useEffect(() => {
-  //   console.log(socketIo)
-  // }, [])
 
   return (
     <div className={styles.main}>

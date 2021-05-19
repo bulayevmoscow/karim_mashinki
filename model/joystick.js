@@ -12,7 +12,10 @@ const styleCircle = {
   left: '50%',
   top: '50%'
 }
-//topPos = element.offsetTop;
+
+
+
+
 const Joystick = () => {
   let watcher
 

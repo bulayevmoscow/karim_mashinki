@@ -15,7 +15,7 @@ const Arrows = (props) => {
            onTouchEnd={positionHandler.bind(null, type, false)}
            onMouseDown={positionHandler.bind(null, type, true)}
            onMouseUp={positionHandler.bind(null, type, false)}
-           onMouseLeave={positionHandler.bind(null, type, false)}
+           // onMouseLeave={positionHandler.bind(null, type, false)}
            data-value={position[type]}>
       </div>
     )
@@ -95,7 +95,7 @@ const Arrows = (props) => {
         <Arrow type={'rotateToRight'}/>
       </div>)
   }
-  
+
 
   return (
     <div>Unset</div>
