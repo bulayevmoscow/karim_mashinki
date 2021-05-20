@@ -56,11 +56,11 @@ class JoystickModelSVG extends Component {
           {/*Joysticks sticks: left, right*/}
           <path
             data-type={'joystick'}
-            style={{transform: `translate(${this.props.status.axesLeftX / 7}px, ${this.props.status.axesLeftY / 7}px)`}}
+            style={{transform: `translate(${this.props.status.axesLeftX * 5}px, ${this.props.status.axesLeftY * 5}px)`}}
             d="M190.892,326.654c-15.024,0-27.252,12.228-27.252,27.258c0,15.025,12.228,27.253,27.252,27.253    c15.031,0,27.258-12.228,27.258-27.253C218.15,338.882,205.923,326.654,190.892,326.654z"/>
           <path
             data-type={'joystick'}
-            style={{transform: `translate(${this.props.status.axesRightX / 7}px, ${this.props.status.axesRightY / 7}px)`}}
+            style={{transform: `translate(${this.props.status.axesRightX * 5}px, ${this.props.status.axesRightY * 5}px)`}}
             d="M378.482,326.654c-15.031,0-27.258,12.228-27.258,27.258c0,15.025,12.227,27.253,27.258,27.253    c15.025,0,27.252-12.228,27.252-27.253C405.734,338.882,393.508,326.654,378.482,326.654z"/>
           {/*{console.log(, this.props.status)}*/}
           {/*Joysticks body*/}
