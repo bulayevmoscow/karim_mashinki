@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import JoystickModelSVG from '../model/js'
 
-
 class ProgressBar extends React.Component {
   render () {
     const width = Math.abs(this.props.width)
@@ -14,7 +13,7 @@ class ProgressBar extends React.Component {
       }>
         <div style={{
           height: 100,
-          width: width / 2 + '%' ,
+          width: width / 2 + '%',
           marginLeft: '50%',
           transform: 'rotate(180deg)',
           background: (this.props.width > 0) ? 'green' : 'red'
@@ -33,7 +32,7 @@ const CheckJoystick = (predicate, thisArg) => {
 
     //AxesLeft
     axesLeftX: 0,
-    axesLeftY: 100,
+    axesLeftY: 0,
 
     //AxesRight
     axesRightX: 100,
@@ -45,15 +44,15 @@ const CheckJoystick = (predicate, thisArg) => {
     buttonCross: true,
     buttonSquare: false,
 
-    // LeftButton
-    arrowsLeft: false,
-    arrowsRight: false,
-    arrowsTop: false,
-    arrowsBottom: false,
-
-    //serviceButton
-    serviceButtonLeft: false,
-    serviceButtonRight: false,
+    // // LeftButton
+    // arrowsLeft: false,
+    // arrowsRight: false,
+    // arrowsTop: false,
+    // arrowsBottom: false,
+    //
+    // //serviceButton
+    // serviceButtonLeft: false,
+    // serviceButtonRight: false,
 
   })
   const [switcher, setSwitcher] = useState(true)
@@ -77,18 +76,17 @@ const CheckJoystick = (predicate, thisArg) => {
 
     // TODO Сделать выбор устройства для мобил
     // https://developer.chrome.com/docs/devtools/remote-debugging/
-    const device = devices.filter(x => x)[1]
+    // const device = devices.filter(x => x)[1]
+    const device = devices.filter(x => x)[0]
     if (!device)
       return
     setJoystick({
-      axesLeft: {
-        x: device.axes[0] * 100,
-        y: device.axes[1] * 100
-      },
-      axesRight: {
-        x: device.axes[2],
-        y: device.axes[3]
-      },
+      axesLeftX: (device.axes[0] * 100) << 0 ,
+      axesLeftY: (device.axes[1] * 100) << 0,
+
+      axesRightX: (device.axes[2] * 100) << 0,
+      axesRightY: (device.axes[3] * 100) << 0,
+
       buttonCross: device.buttons[0].pressed,
       buttonCircle: device.buttons[1].pressed,
       buttonSquare: device.buttons[2].pressed,
@@ -103,15 +101,13 @@ const CheckJoystick = (predicate, thisArg) => {
     if (switcher) {
       const joystickInterval = window.setInterval(joystickHandler, 25)
     }
-
     return (() => {
       window.removeEventListener('gamepadconnected', joystickConnect)
       window.removeEventListener('gamepaddisconnected', joystickDisconnect)
-      // window.clearInterval(joystickInterval)
     })
   }, [switcher])
 
-  const [tconnect, setTconnect] = useState(false);
+  const [tconnect, setTconnect] = useState(false)
 
   return <div>
     <pre>
@@ -123,8 +119,8 @@ const CheckJoystick = (predicate, thisArg) => {
 
     <JoystickModelSVG connect={tconnect} status={joystick}/>
 
-    {/*<ProgressBar width={(joystick) ? joystick.axesLeft.x : 0}/>*/}
-    {/*<ProgressBar width={(joystick) ? joystick.axesLeft.y : 0}/>*/}
+    <ProgressBar width={(joystick) ? joystick.axesLeftX : 0}/>
+    <ProgressBar width={(joystick) ? joystick.axesLeftY : 0}/>
 
   </div>
 }

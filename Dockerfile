@@ -29,6 +29,7 @@ COPY . /usr/src/app
 # Building app
 RUN npm run build
 EXPOSE 3000
+EXPOSE 80
 
 # Running the app
 CMD "yarn" "run" "custom_start_port_80"

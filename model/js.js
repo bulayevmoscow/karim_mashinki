@@ -4,12 +4,11 @@ import styles from './js.module.sass'
 class JoystickModelSVG extends Component {
   constructor (props) {
     super()
-    this.state = props.status
+
   }
 
   render () {
-    const ternariesActiveButton = (value) => { return (!!value) ? 'green' : 'blue' }
-    const ternariesActiveConnect = ternariesActiveButton
+
 
     return (
       <div>
@@ -35,19 +34,19 @@ class JoystickModelSVG extends Component {
             cx="290.531" cy="146.371" r="18.752" fill="red"/>
 
           {/*Треугольник, кружочек, крестик, квадратик*/}
-          <circle cx="466.5" cy="231.598" r="17.081" data-color={!!this.state.buttonTriangle}/>
-          <circle cx="506.592" cy="271.69" r="17.081" data-color={!!this.state.buttonCircle}/>
-          <circle cx="466.5" cy="311.776" r="17.081" data-color={!!this.state.buttonCross}/>
-          <circle cx="426.408" cy="271.69" r="17.081" data-color={!!this.state.buttonSquare}/>
+          <circle cx="466.5" cy="231.598" r="17.081" data-color={!!this.props.status.buttonTriangle}/>
+          <circle cx="506.592" cy="271.69" r="17.081" data-color={!!this.props.status.buttonCircle}/>
+          <circle cx="466.5" cy="311.776" r="17.081" data-color={!!this.props.status.buttonCross}/>
+          <circle cx="426.408" cy="271.69" r="17.081" data-color={!!this.props.status.buttonSquare}/>
 
           {/*Share*/}
           <path
-            data-color={!!this.state.serviceButtonRight}
+            data-color={!!this.props.status.serviceButtonRight}
             d="M405.318,229.731c2.809,0,5.098-2.289,5.098-5.098v-13.703c0-2.809-2.289-5.098-5.098-5.098s-5.098,2.289-5.098,5.098    v13.703C400.221,227.443,402.51,229.731,405.318,229.731z"/>
 
           {/*Play*/}
           <path
-            data-color={!!this.state.serviceButtonLeft}
+            data-color={!!this.props.status.serviceButtonLeft}
             d="M169.038,229.731c2.809,0,5.098-2.289,5.098-5.098v-13.703c0-2.809-2.289-5.098-5.098-5.098s-5.098,2.289-5.098,5.098    v13.703C163.939,227.443,166.229,229.731,169.038,229.731z"/>
 
           {/*Logo*/}
@@ -57,11 +56,13 @@ class JoystickModelSVG extends Component {
           {/*Joysticks sticks: left, right*/}
           <path
             data-type={'joystick'}
+            style={{transform: `translate(${this.props.status.axesLeftX / 7}px, ${this.props.status.axesLeftY / 7}px)`}}
             d="M190.892,326.654c-15.024,0-27.252,12.228-27.252,27.258c0,15.025,12.228,27.253,27.252,27.253    c15.031,0,27.258-12.228,27.258-27.253C218.15,338.882,205.923,326.654,190.892,326.654z"/>
           <path
             data-type={'joystick'}
+            style={{transform: `translate(${this.props.status.axesRightX / 7}px, ${this.props.status.axesRightY / 7}px)`}}
             d="M378.482,326.654c-15.031,0-27.258,12.228-27.258,27.258c0,15.025,12.227,27.253,27.258,27.253    c15.025,0,27.252-12.228,27.252-27.253C405.734,338.882,393.508,326.654,378.482,326.654z"/>
-
+          {/*{console.log(, this.props.status)}*/}
           {/*Joysticks body*/}
           <path
             data-type={'body'}
@@ -69,16 +70,16 @@ class JoystickModelSVG extends Component {
 
           {/*Arrows: top, right, bottom */}
           <path
-            data-color={!!this.state.arrowsTop}
+            data-color={!!this.props.status.arrowsTop}
             d="M106.687,262.945c4.969-3.647,9.345-7.43,9.969-8.672c1.23-2.46,2.944-15.729,2.62-20.276    c-0.171-2.442-4.4-3.684-12.57-3.69c-8.207,0.006-12.436,1.243-12.614,3.69c-0.324,4.547,1.396,17.821,2.625,20.276    C97.391,255.625,102.115,259.585,106.687,262.945z"/>
           <path
-            data-color={!!this.state.arrowsRight}
+            data-color={!!this.props.status.arrowsRight}
             d="M146.394,261.109c-0.343-0.024-0.741-0.037-1.188-0.037c-5.673,0-16.916,1.561-19.094,2.656    c-1.242,0.625-5.024,4.994-8.672,9.97c3.36,4.572,7.313,9.296,8.672,9.969c2.356,1.175,15.533,2.962,20.282,2.625    c2.436-0.171,3.678-4.406,3.684-12.57C150.072,265.509,148.835,261.28,146.394,261.109z"/>
           <path
-            data-color={!!this.state.arrowsBottom}
+            data-color={!!this.props.status.arrowsBottom}
             d="M106.687,284.444c-4.572,3.36-9.29,7.313-9.97,8.678c-1.23,2.454-2.943,15.723-2.625,20.276    c0.171,2.436,4.407,3.678,12.571,3.684l0.043,3.061v-3.061c8.17-0.006,12.393-1.242,12.57-3.684    c0.331-4.548-1.389-17.81-2.62-20.276C116.032,291.88,111.656,288.098,106.687,284.444z"/>
           <path
-            data-color={!!this.state.arrowsLeft}
+            data-color={!!this.props.arrowsLeft}
             d="M87.256,263.728c-2.179-1.095-13.421-2.656-19.088-2.656c-0.446,0-0.851,0.012-1.181,0.037    c-2.442,0.171-3.684,4.4-3.69,12.57c0.006,8.207,1.242,12.436,3.69,12.613c0.331,0.024,0.716,0.037,1.157,0.037    c5.673,0,16.928-1.566,19.113-2.662c1.365-0.679,5.318-5.397,8.678-9.969C92.28,268.722,88.499,264.346,87.256,263.728z"/>
 
           {/*Touchpad*/}
