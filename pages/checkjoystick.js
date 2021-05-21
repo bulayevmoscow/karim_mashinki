@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { io } from 'socket.io-client'
+
 
 import JoystickModelSVG from '../model/js'
 
@@ -27,30 +29,6 @@ const CheckJoystick = (predicate, thisArg) => {
   const [statusConnect, setStatusConnect] = useState(false)
   const [joystick, setJoystick] = useState({
 
-    //AxesLeft
-    axesLeftX: 0,
-    axesLeftY: 0,
-
-    //AxesRight
-    axesRightX: 0,
-    axesRightY: 0,
-
-    // RightButton
-    buttonTriangle: false,
-    buttonCircle: false,
-    buttonCross: false,
-    buttonSquare: false,
-
-    // // LeftButton
-    // arrowsLeft: false,
-    // arrowsRight: false,
-    // arrowsTop: false,
-    // arrowsBottom: false,
-    //
-    // //serviceButton
-    // serviceButtonLeft: false,
-    // serviceButtonRight: false,
-
   })
   const [switcher, setSwitcher] = useState(true)
   const joystickConnect = (ev) => {
@@ -63,6 +41,18 @@ const CheckJoystick = (predicate, thisArg) => {
     console.log(ev)
   }
 
+  let socket = useSocket()
+  function useSocket (url) {
+    const [socket, setSocket] = useState(null)
+    useEffect(() => {
+      const socketIo = io(url)
+      setSocket(socketIo)
+      return () => socketIo.disconnect()
+    }, [])
+    return socket
+  }
+
+
   const joystickHandler = async () => {
     const devices = Object.values(navigator.getGamepads())
     if (devices.filter(x => x) > 0) {
@@ -72,20 +62,16 @@ const CheckJoystick = (predicate, thisArg) => {
 
     // TODO Сделать выбор устройства для мобил
     // https://developer.chrome.com/docs/devtools/remote-debugging/
-    // const device = devices.filter(x => x)[1]
     const device = devices.filter(x => x)[0]
     setStatusConnect(device);
-    // console.log(device)
     if (!device)
       return
-    // let check
-    // let check
     let JoystickNewData = {
-      axesLeftX: (device.axes[0] * 10) << 0 ,
-      axesLeftY: (device.axes[1] * 10) << 0,
+      axesLeftX: (device.axes[0] * 20) << 0 ,
+      axesLeftY: (device.axes[1] * 20) << 0,
 
-      axesRightX: (device.axes[2] * 10) << 0,
-      axesRightY: (device.axes[3] * 10) << 0,
+      axesRightX: (device.axes[2] * 20) << 0,
+      axesRightY: (device.axes[3] * 20) << 0,
 
       buttonCross: device.buttons[0].pressed,
       buttonCircle: device.buttons[1].pressed,
@@ -112,24 +98,34 @@ const CheckJoystick = (predicate, thisArg) => {
       TouchPadPressed: device.buttons[17].pressed
     }
     if (JSON.stringify(JoystickNewData) !== JSON.stringify(joystick)) {
-      console.log(setJoystick(JoystickNewData))
-      // console.log(joystick);
+      await setJoystick(JoystickNewData)
+      console.log(joystick);
     }
 
   }
 
   useEffect(() => {
+
+    if (!socket){
+      console.log('error connect')
+      return
+    }
+    console.log(1, socket.connected)
+    socket.emit('data', JSON.stringify(joystick))
+  }, [joystick])
+
+
+  useEffect(() => {
     window.addEventListener('gamepadconnected', joystickConnect)
     window.addEventListener('gamepaddisconnected', joystickDisconnect)
-
-    const joystickInterval = (switcher) ? window.setInterval(joystickHandler, 50) : false;
+    const joystickInterval = (switcher) ? window.setInterval(joystickHandler, 100) : false;
 
     return (() => {
       (joystickInterval) ? window.clearInterval(joystickInterval) : 0;
       window.removeEventListener('gamepadconnected', joystickConnect)
       window.removeEventListener('gamepaddisconnected', joystickDisconnect)
     })
-  }, [switcher])
+  }, [switcher, joystick])
 
 
 

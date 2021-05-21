@@ -1,18 +1,9 @@
-FROM debian:latest
+FROM node:16-alpine
 
 ENV PORT 3000
 
 
 
-WORKDIR ~
-
-RUN apt-get update
-# install curl
-RUN apt-get install curl -y
-# get install script and pass it to execute:
-RUN curl -sL https://deb.nodesource.com/setup_15.x | bash
-# and install node
-RUN apt-get install nodejs -y
 
 RUN npm install -g yarn next
 
