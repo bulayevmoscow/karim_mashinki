@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
-
+import checkMobileDevice from '../controller/checkMobileDevice'
 
 import JoystickModelSVG from '../model/js'
 
@@ -27,17 +27,19 @@ class ProgressBar extends React.Component {
 
 const CheckJoystick = (predicate, thisArg) => {
   const [statusConnect, setStatusConnect] = useState(false)
+  const [statusConnectToServer, setStatusConnectToServer] = useState(false)
   const [joystick, setJoystick] = useState({
 
   })
   const [switcher, setSwitcher] = useState(true)
   const joystickConnect = (ev) => {
+    setStatusConnect(true)
     console.log(navigator.getGamepads())
     console.log(ev)
   }
 
   const joystickDisconnect = (ev) => {
-    // setConnect('false')
+    setStatusConnect(false)
     console.log(ev)
   }
 
@@ -63,7 +65,7 @@ const CheckJoystick = (predicate, thisArg) => {
     // TODO Сделать выбор устройства для мобил
     // https://developer.chrome.com/docs/devtools/remote-debugging/
     const device = devices.filter(x => x)[0]
-    setStatusConnect(device);
+    // setStatusConnect(device);
     if (!device)
       return
     let JoystickNewData = {
@@ -114,6 +116,16 @@ const CheckJoystick = (predicate, thisArg) => {
     socket.emit('data', JSON.stringify(joystick))
   }, [joystick])
 
+  useEffect(() => {
+    if (!socket)
+      return
+    socket.on("connect", () => {
+      setStatusConnectToServer(true)
+    })
+    socket.on("disconnect", () => {
+      setStatusConnectToServer(false)
+    })
+  }, [socket])
 
   useEffect(() => {
     window.addEventListener('gamepadconnected', joystickConnect)
@@ -131,15 +143,15 @@ const CheckJoystick = (predicate, thisArg) => {
 
   return <div>
     <pre>
-      {JSON.stringify(joystick, '', '\t')}
+      {/*{JSON.stringify(joystick, '', '\t')}*/}
     </pre>
+    {/*<pre>{statusConnectToServer.toString()}</pre>*/}
 
     <button onClick={setStatusConnect.bind(null, !statusConnect)}>123</button>
-    {/*todo Добавить в JSON тип*/}
-    <JoystickModelSVG connect={statusConnect} status={joystick}/>
-
-    <ProgressBar width={(joystick) ? joystick.axesLeftX : 0}/>
-    <ProgressBar width={(joystick) ? joystick.axesLeftY : 0}/>
+    {/*todo Добавить в JSON тип устройства*/}
+    <JoystickModelSVG connect={statusConnect} status={joystick} serverStatus={statusConnectToServer}/>
+    {/*<ProgressBar width={(joystick) ? joystick.axesLeftX : 0}/>*/}
+    {/*<ProgressBar width={(joystick) ? joystick.axesLeftY : 0}/>*/}
 
   </div>
 }

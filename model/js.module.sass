@@ -3,11 +3,11 @@ $colorConnected:'red'
 
 .joysticksvg
   *
-
+    transition: .3s linear
   &[data-connected="true"] *[data-type='connectStatus']
-    fill: #ef5c5c
-  &[data-connected="false"] *[data-type='connectStatus']
     fill: #5cef5c
+  &[data-connected="false"] *[data-type='connectStatus']
+    fill: #ef5c5c
   *[data-type='connectStatus']
     transition: .5s cubic-bezier(0.99, 0.03, 0.03, 0.98)
 
@@ -19,7 +19,16 @@ $colorConnected:'red'
   path, circle
     fill: #cd8dc1
   *[data-type="joystick"]
+    transition: 0s
     //transform: translateX(5%)
 
   *[data-type="body"], *[data-type="touchpad"]
     opacity: 0.3
+
+  svg.serverstatus
+    &[data-serverconnect="true"]
+      path, circle
+        fill: #5cef5c
+    &[data-serverconnect="false"]
+      path, circle
+        fill: #ef5c5c

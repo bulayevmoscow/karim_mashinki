@@ -17,6 +17,7 @@ function useSocket (url) {
 
 const main = () => {
   let socket = useSocket()
+
   const [position, setPosition] = useState({
     type: 'arrows',
     top: 0,
@@ -40,7 +41,6 @@ const main = () => {
   }, [socket])
 
   useEffect(() => {
-
     if (!socket){
       console.log('error connect')
       return
@@ -59,7 +59,6 @@ const main = () => {
         ...prev, ...{ [dir]: (press) ? 100 : 0 }
       }
     })
-
   }
 
 

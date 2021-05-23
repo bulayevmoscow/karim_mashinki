@@ -2,24 +2,27 @@ import image from '../public/arrow.svg'
 import styles from './arrow/arrow.module.sass'
 import pushData from '../controller/pushData'
 import styleBackgroundImage from '../public/arrow.svg'
+import checkMobileDevice from '../controller/checkMobileDevice'
+
 
 import { useEffect } from 'react'
 
 const Arrows = (props) => {
-  //arrowsTBRL
-  //arrowsXY
   const Arrow = ({ type }) => {
     return (
       <div className={styles[type]}
-           onTouchStart={positionHandler.bind(null, type, true)}
-           onTouchEnd={positionHandler.bind(null, type, false)}
+           onPointerDown={positionHandler.bind(this, type, true)}
+           onPointerUp={positionHandler.bind(this, type, false)}
            onMouseDown={positionHandler.bind(null, type, true)}
            onMouseUp={positionHandler.bind(null, type, false)}
-           // onMouseLeave={positionHandler.bind(null, type, false)}
            data-value={position[type]}>
       </div>
     )
   }
+
+
+
+
 
   const { position, positionHandler } = props.position
 
@@ -100,8 +103,6 @@ const Arrows = (props) => {
   return (
     <div>Unset</div>
   )
-
-
 }
 
 export default Arrows
