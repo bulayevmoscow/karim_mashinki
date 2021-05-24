@@ -6,15 +6,15 @@ module.exports = withPlugins([
 
   [optimizedImages],
 ], { useFileSystemPublicRoutes: true }, {
-  async redirects () {
-    return [
-      {
-        source: '/',
-        destination: '/karim',
-        permanent: true,
-      },
-    ]
-  },
+  // async redirects () {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/karim',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
   useFileSystemPublicRoutes: true,
   dev: true
 })
