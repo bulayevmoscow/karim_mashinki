@@ -69,6 +69,7 @@ const CheckJoystick = (predicate, thisArg) => {
     if (!device)
       return
     let JoystickNewData = {
+      type: 'joystick',
       axesLeftX: (device.axes[0] * 20) << 0 ,
       axesLeftY: (device.axes[1] * 20) << 0,
 
@@ -81,10 +82,10 @@ const CheckJoystick = (predicate, thisArg) => {
       buttonTriangle: device.buttons[3].pressed,
 
       L1: device.buttons[4].pressed,
-      L2: 100 * device.buttons[6].value << 0,
+      L2: 20 * device.buttons[6].value << 0,
 
       R1: device.buttons[5].pressed,
-      R2: 100 * device.buttons[7].value << 0,
+      R2: 20 * device.buttons[7].value << 0,
 
       Share: device.buttons[8].pressed,
       Options: device.buttons[9].pressed,

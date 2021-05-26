@@ -19,7 +19,7 @@ const main = () => {
   let socket = useSocket()
 
   const [position, setPosition] = useState({
-    type: 'arrows',
+    type: 'keyboard',
     top: 0,
     bottom: 0,
     left: 0,

@@ -22,7 +22,7 @@ yarn
 
 Конфиг запуска
 
-Пишем `yarn run < command >`
+Пишем `yarn run < command >` или `npm run < command >`
 
 ### Command
 
@@ -44,3 +44,16 @@ yarn
 
 `custom_start_port_80` То же что и `custom_start`, но на 80 порту
 
+### Страницы
+
+`/index` Стартовая страница - ожидает правок
+
+`/keyboard` Ввод данных с помощью мыши и/или клавиатуры
+
+`/joystick` Ввод данных с помощью джойстика
+
+### Примеры вывода SOCKET.IO - JSON
+
+[Джойстик](JSON_EXAMPLE_JOYSTICK.json)
+
+[Клавиатура](JSON_EXAMPLE_KEYBOARD.json)
