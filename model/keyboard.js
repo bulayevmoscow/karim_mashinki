@@ -5,19 +5,9 @@ import DebugPanel from '../model/debugPanel'
 import styles from '../pagesStyles/karim.module.sass'
 import { io } from 'socket.io-client'
 
-function useSocket (url) {
-  const [socket, setSocket] = useState(null)
-  useEffect(() => {
-    const socketIo = io(url)
-    setSocket(socketIo)
-    return () => socketIo.disconnect()
-  }, [])
-  return socket
-}
 
-const main = () => {
-  let socket = useSocket()
 
+const Keyboard = ({effect: [data, dataHandler]}) => {
   const [position, setPosition] = useState({
     type: 'keyboard',
     top: 0,
@@ -29,27 +19,6 @@ const main = () => {
     getUp: 0,
     getDown: 0
   })
-
-  useEffect(() => {
-    if (!socket)
-      return
-    console.log(socket)
-    socket.on('now', data => console.log(data))
-    socket.emit('data', 'keku1')
-    // TODO сделать евент для отключения
-    socket.on('disconnect', () => {console.log('Server was disconnected')})
-  }, [socket])
-
-  useEffect(() => {
-    if (!socket){
-      console.log('error connect')
-      return
-    }
-    console.log(1, socket.connected)
-    socket.emit('data', JSON.stringify(position))
-  }, [position])
-
-
 
 
   const positionHandler = (dir, press) => {
@@ -64,6 +33,7 @@ const main = () => {
 
   return (
     <div className={styles.main}>
+      {/*TODO изменить обработчик*/}
       <Arrows position={{ position, positionHandler }} type={'arrowsTBRL'}/>
       <Arrows position={{ position, positionHandler }} type={'arrowsXY'}/>
       {/*<DebugPanel show={{ showDebug, setShowDebug }} json={position} transfer={transfer} switchConnect={setTransfer}/>*/}
@@ -72,4 +42,4 @@ const main = () => {
   )
 }
 
-export default main
+export default Keyboard

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
 import checkMobileDevice from '../controller/checkMobileDevice'
 
-import JoystickModelSVG from '../model/js'
+import JoystickModelSVG from '../model/model_joystick'
 
 class ProgressBar extends React.Component {
   render () {
