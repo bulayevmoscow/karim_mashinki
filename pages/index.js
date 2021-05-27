@@ -36,7 +36,7 @@ const IndexPage = () => {
     })
   }
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(null)
   const dataHandler = (value, key) => {
     setIndex(prev => {
       return {
@@ -61,13 +61,34 @@ const IndexPage = () => {
     indexHandler('isMobile', isMobile)
     if (!isMobile)
       return
-    const orientationChangeHandler = event => indexHandler('position', (event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270) ? 'h' : 'v')
+    const orientationChangeHandler = event => {
+      const position = (event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270) ? 'h' : 'v'
+      indexHandler('position', position)
+    }
+
     addEventListener('orientationchange', orientationChangeHandler)
     return () => {
       removeEventListener('orientationchange', orientationChangeHandler)
     }
 
   }, [])
+
+  // useEffect(() => {
+  //   if (index.position === 'v') {
+  //     console.log('trying to fullscreen')
+  //     document.documentElement.requestFullscreen().then(r => console.log(r)).catch(err => console.log('err', err))
+  //   }
+  // }, [])
+
+  // API
+  //https://developers.google.com/web/fundamentals/native-hardware/fullscreen
+  // How to API FullSreen
+  // https://javascript.plainenglish.io/user-gesture-restricted-web-apis-d794454453f7
+
+  useEffect(() => {
+    //change handler
+    document.querySelector('#kek').addEventListener('change', () => {console.log('change!!')})
+  },[])
 
   return (
     <div className={style.main}>
@@ -84,6 +105,7 @@ const IndexPage = () => {
       />
       {(index.isMobile && index.position === 'v') ? <AlertRotatePhone class={style.overlay}/> : ''}
       <div>
+        <input type="text" id={'kek'}/>
         {(index.device === 'gamepad') ? <Joystick effect={[data, setData]}/> : ''}
         {(index.device === 'keyboard') ? <Keyboard effect={[data, dataHandler]}/> : ''}
       </div>
