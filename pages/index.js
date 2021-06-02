@@ -4,7 +4,6 @@ import Keyboard from '../model/keyboard'
 import { useEffect, useState } from 'react'
 import checkMobileDevice from '../controller/checkMobileDevice'
 import { io } from 'socket.io-client'
-import { event } from 'next/dist/build/output/log'
 import style from '../pagesStyles/index.module.sass'
 import AlertRotatePhone from '../model/alertRotatePhone'
 
@@ -18,16 +17,18 @@ const useSocket = (url) => {
   return socket
 }
 
-const IndexPage = () => {
+const socket = io()
 
+const IndexPage = () => {
+  // index data for system info
   const [index, setIndex] = useState({
     page: 'index',
     device: 'gamepad',
+    gamepad: false,
     position: 'h',
     isMobile: null,
-    server: false
+    server: false,
   })
-
   const indexHandler = (value, key) => {
     setIndex(prev => {
       return {
@@ -35,6 +36,8 @@ const IndexPage = () => {
       }
     })
   }
+
+  // const [socket, setSocket] = useState();
 
   const [data, setData] = useState(null)
   const dataHandler = (value, key) => {
@@ -47,30 +50,48 @@ const IndexPage = () => {
 
   const switchDeviceHandler = device => indexHandler('device', device)
 
-  // Socket
+  // useEffect(() => {
+  //   socket.emit('data', JSON.stringify(index))
+  // }, [index])
+
+  // Data dependence to Socket
   useEffect(() => {
-    // TODO Сделать очередь после снова
-    const socket = io()
-    console.log('effect')
-    socket.on('connect', indexHandler.bind(null, 'server', true))
-    socket.on('disconnect', indexHandler.bind(null, 'server', false))
+    if (!!data && index.server) {
+      socket.emit('data', JSON.stringify(data))
+    }
+
+  }, [data])
+  // Connect and Disconnect Socket handlers
+  useEffect(() => {
+    socket.on('connect', () => {
+      dataHandler('server', true)
+    })
+    socket.on('disconnect', () => {
+      dataHandler('server', false)
+    })
   }, [])
   //checkMobile and checkPosition
   useEffect(() => {
     const isMobile = checkMobileDevice()
     indexHandler('isMobile', isMobile)
+    indexHandler('pos', isMobile)
     if (!isMobile)
       return
     const orientationChangeHandler = event => {
       const position = (event.target.screen.orientation.angle === 90 || event.target.screen.orientation.angle === 270) ? 'h' : 'v'
       indexHandler('position', position)
     }
-
     addEventListener('orientationchange', orientationChangeHandler)
     return () => {
       removeEventListener('orientationchange', orientationChangeHandler)
     }
 
+  }, [])
+  //checkGamepad
+  useEffect(() => {
+    addEventListener('gamepadconnected', () => dataHandler('gamepad', true))
+    addEventListener('gamepadconnected', () => console.log('COnnect'))
+    addEventListener('gamepaddisconnected', dataHandler.bind(null, 'gamepad', false))
   }, [])
 
   // useEffect(() => {
@@ -93,11 +114,12 @@ const IndexPage = () => {
   return (
     <div className={style.main}>
       <pre>{JSON.stringify(index, '\t')}</pre>
+      <pre>{JSON.stringify(data, '\t')}</pre>
       <Menu
         device={index.device}
         switchDeviceHandler={switchDeviceHandler}
         icons={{
-          gamepad: false,
+          gamepad: index.gamepad,
           keyboard: true,
           server: !!index.server,
           connect: true
@@ -106,8 +128,8 @@ const IndexPage = () => {
       {(index.isMobile && index.position === 'v') ? <AlertRotatePhone class={style.overlay}/> : ''}
       <div>
         <input type="text" id={'kek'}/>
-        {(index.device === 'gamepad') ? <Joystick effect={[data, setData]}/> : ''}
-        {(index.device === 'keyboard') ? <Keyboard effect={[data, dataHandler]}/> : ''}
+        {(index.device === 'gamepad') ? <Joystick effect={[data, setData]} gamepad={index.gamepad}/> : ''}
+        {(index.device === 'keyboard') ? <Keyboard effect={[data, dataHandler, setData]}/> : ''}
       </div>
     </div>
 

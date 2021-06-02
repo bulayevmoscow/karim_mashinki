@@ -1,13 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 // import Joystick from 'model/joystick'
 import Arrows from '../model/model_arrow'
-import DebugPanel from '../model/debugPanel'
 import styles from '../pagesStyles/karim.module.sass'
-import { io } from 'socket.io-client'
 
+const Keyboard = ({ effect: [data, dataHandler, setData] }) => {
 
-
-const Keyboard = ({effect: [data, dataHandler]}) => {
   const [position, setPosition] = useState({
     type: 'keyboard',
     top: 0,
@@ -20,19 +17,21 @@ const Keyboard = ({effect: [data, dataHandler]}) => {
     getDown: 0
   })
 
-
   const positionHandler = (dir, press) => {
     // TODO Сделать обработчик чтобы снизить нагрузку на CPU
     setPosition(prev => {
       return {
-        ...prev, ...{ [dir]: (press) ? 100 : 0 }
+        ...prev, ...{ [dir]: (press) ? 20 : 0 }
       }
     })
   }
-
+  useEffect(() => {
+    setData(position)
+  }, [position])
 
   return (
     <div className={styles.main}>
+
       {/*TODO изменить обработчик*/}
       <Arrows position={{ position, positionHandler }} type={'arrowsTBRL'}/>
       <Arrows position={{ position, positionHandler }} type={'arrowsXY'}/>
