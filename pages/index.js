@@ -23,7 +23,7 @@ const IndexPage = () => {
   // index data for system info
   const [index, setIndex] = useState({
     page: 'index',
-    device: 'gamepad',
+    device: 'keyboard',
     gamepad: false,
     position: 'h',
     isMobile: null,
@@ -106,10 +106,7 @@ const IndexPage = () => {
   // How to API FullSreen
   // https://javascript.plainenglish.io/user-gesture-restricted-web-apis-d794454453f7
 
-  useEffect(() => {
-    //change handler
-    document.querySelector('#kek').addEventListener('change', () => {console.log('change!!')})
-  },[])
+
 
   return (
     <div className={style.main}>
@@ -127,9 +124,7 @@ const IndexPage = () => {
       />
       {(index.isMobile && index.position === 'v') ? <AlertRotatePhone class={style.overlay}/> : ''}
       <div>
-        <input type="text" id={'kek'}/>
-        {(index.device === 'gamepad') ? <Joystick effect={[data, setData]} gamepad={index.gamepad}/> : ''}
-        {(index.device === 'keyboard') ? <Keyboard effect={[data, dataHandler, setData]}/> : ''}
+        {(index.device === 'gamepad') ? <Joystick effect={[data, setData]} gamepad={index.gamepad}/> : <Keyboard effect={[data, dataHandler, setData]}/>}
       </div>
     </div>
 

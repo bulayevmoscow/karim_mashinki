@@ -24,7 +24,6 @@ class ProgressBar extends React.Component {
 }
 
 const joystickHandler = (device) => {
-  // console.log(device)
   return {
     type: 'joystick',
     axesLeftX: (device.axes[0] * 20) << 0,
@@ -57,7 +56,6 @@ const joystickHandler = (device) => {
     LogoButton: device.buttons[16].pressed,
     TouchPadPressed: device.buttons[17].pressed
   }
-
 }
 
 const choiceDevice = (device) => (!!device) && device[0] || device[1] || device[2] || device[3]
